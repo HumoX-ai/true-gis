@@ -1,4 +1,3 @@
-import * as React from "react";
 import { ArrowRight, ArrowLeft, CircleHelp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +20,15 @@ import {
   TooltipTrigger,
 } from "../ui/tooltip";
 import { formSchema } from "./scheme";
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 type StepOneProps = {
   handleNext: () => void;
@@ -28,11 +36,8 @@ type StepOneProps = {
   currentStep: number;
 };
 
-export function StepEight({
-  handleNext,
-  handleBack,
-  currentStep,
-}: StepOneProps) {
+export function StepEight({ handleBack, currentStep }: StepOneProps) {
+  const [showDialog, setShowDialog] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,8 +52,16 @@ export function StepEight({
       name: values.name,
       phone: values.phone,
     };
-    localStorage.setItem(`step-${currentStep + 1}`, JSON.stringify(stepData));
-    handleNext();
+
+    let allStepsDataString = localStorage.getItem("allStepsData");
+    let allStepsData = allStepsDataString ? JSON.parse(allStepsDataString) : {};
+
+    allStepsData[currentStep] = stepData;
+
+    localStorage.setItem("allStepsData", JSON.stringify(allStepsData));
+
+    setShowDialog(true);
+    alert(JSON.stringify(allStepsData, null, 2));
   };
 
   return (
@@ -123,6 +136,47 @@ export function StepEight({
           Keyingisi <ArrowRight />
         </Button>
       </CardFooter>
+
+      <Dialog open={showDialog} onOpenChange={setShowDialog}>
+        <DialogContent className="max-w-md mx-auto bg-[#18181B] text-white border border-[#35353a]">
+          <DialogHeader>
+            <div className="flex items-center justify-start">
+              <div className="bg-green-500 p-2 rounded-full">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  className="w-6 h-6 text-white"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+            </div>
+            <DialogTitle className="mt-4">Arizangiz qabul qilindi</DialogTitle>
+            <DialogDescription className="mt-2">
+              Arizangiz moderatorlarimiz tomonidan ko`rib chiqilib, 24 soat
+              ichida javob beriladi.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="flex justify-center mt-4">
+            <Button
+              onClick={() => {
+                setShowDialog(false);
+                // window.location.href = "/";
+              }}
+              className="bg-[#2970FF] text-white hover:bg-[#2970FF]/90 w-full"
+            >
+              Bosh sahifaga qaytish
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Card>
   );
 }

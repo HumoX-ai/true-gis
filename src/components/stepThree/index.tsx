@@ -39,6 +39,8 @@ export function StepThree({
     lon: 0,
   });
   const [address, setAddress] = useState("");
+  
+  
 
   console.log(userLocation);
 
@@ -131,7 +133,13 @@ export function StepThree({
               )}
             />
             {/* yandex map here */}
-            <YMaps>
+            <YMaps
+              query={{
+                load: "package.full",
+                apikey: "e4384fdc-6d2e-4c6d-90e6-28c788ec8129",
+                lang: "ru_RU",
+              }}
+            >
               <Map
                 width="100%"
                 height="300px"

@@ -1,23 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Menu } from "lucide-react";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./ui/select";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
+import { Select, SelectContent, SelectTrigger, SelectValue } from "./ui/select";
+import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import { Button } from "./ui/button";
 
 const Header = () => {
@@ -66,6 +51,8 @@ const Header = () => {
           </Select>
         </div>
         <div className="block lg:hidden">
+          {/* For small screen */}
+
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost">
@@ -73,8 +60,8 @@ const Header = () => {
               </Button>
             </SheetTrigger>
             <SheetContent>
-              <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-1 items-center gap-4">
+              <div className="grid gap-4 py-4 bg-black">
+                <div className="grid grid-cols-1 items-center gap-4 bg-black">
                   {navItems.map((link) => (
                     <Link
                       key={link.path}
@@ -91,7 +78,6 @@ const Header = () => {
                       <Image src="/uzb.svg" alt="Logo" width={30} height={30} />
                       <SelectValue placeholder="O'zbek" />
                     </SelectTrigger>
-                    <SelectContent></SelectContent>
                   </Select>
                 </div>
               </div>
@@ -99,8 +85,6 @@ const Header = () => {
           </Sheet>
         </div>
       </div>
-
-      {/* For small screen */}
     </header>
   );
 };

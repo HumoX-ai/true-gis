@@ -53,15 +53,26 @@ export function StepEight({ handleBack, currentStep }: StepOneProps) {
       phone: values.phone,
     };
 
-    let allStepsDataString = localStorage.getItem("allStepsData");
-    let allStepsData = allStepsDataString ? JSON.parse(allStepsDataString) : {};
+    // 1. Barcha 8 ta qadam ma'lumotlarini to'plash
+    const allStepsData = [];
+    for (let i = 1; i <= 8; i++) {
+      const stepDataString = localStorage.getItem(`step-${i}`);
+      if (stepDataString) {
+        allStepsData.push(JSON.parse(stepDataString));
+      }
+    }
 
-    allStepsData[currentStep] = stepData;
+    // 2. `stepData`ni ham qo'shish
+    allStepsData.push(stepData);
 
+    // 3. `allStepsData`ni `localStorage`ga saqlash
     localStorage.setItem("allStepsData", JSON.stringify(allStepsData));
 
-    setShowDialog(true);
+    // Keyingisi...
+    localStorage.setItem(`step-${currentStep + 1}`, JSON.stringify(stepData));
+
     alert(JSON.stringify(allStepsData, null, 2));
+    setShowDialog(true);
   };
 
   return (

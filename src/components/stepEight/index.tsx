@@ -168,7 +168,7 @@ export function StepEight({ handleBack, currentStep }: StepOneProps) {
             <Button
               onClick={() => {
                 setShowDialog(false);
-                // window.location.href = "/";
+                window.location.href = "/";
               }}
               className="bg-[#2970FF] text-white hover:bg-[#2970FF]/90 w-full"
             >
